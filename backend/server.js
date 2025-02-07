@@ -4,10 +4,14 @@ const morgan = require('morgan');
 require('express-async-errors');
 require('dotenv').config();
 
+// other packages
+const cors = require('cors');
+
 const app = express();
 
 // routers
 const authRouter = require('./routes/authRoutes');
+const eventRouter = require('./routes/eventRoutes');
 
 // error handlers
 const notFoundHandler = require('./middlewares/notFound');
@@ -19,6 +23,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // middlewares
+app.use(cors());
 app.use(express.json());
 
 // routes
@@ -26,6 +31,7 @@ app.get('/', (req, res) => {
   res.send('Event Management App');
 });
 
+app.use('/api/v1/event', eventRouter);
 app.use('/api/v1/auth', authRouter);
 
 // Not found route middleware
