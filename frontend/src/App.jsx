@@ -1,10 +1,50 @@
-import { Button } from './components/ui/button';
+import { ToastContainer } from 'react-toastify';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import {
+  AddEvent,
+  AllEvents,
+  DashboardLayout,
+  HomeLayout,
+  Login,
+  Register,
+} from './pages';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomeLayout />,
+    children: [
+      {
+        index: true,
+        element: <Login />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'dashboard',
+        element: <DashboardLayout />,
+        children: [
+          {
+            index: true,
+            element: <AllEvents />,
+          },
+          {
+            path: 'add-event',
+            element: <AddEvent />,
+          },
+        ],
+      },
+    ],
+  },
+]);
 
 function App() {
   return (
     <>
-      <h1 className="text-3xl border border-red-600">Event Management App</h1>
-      <Button>Click ME</Button>
+      <RouterProvider router={router} />
+      <ToastContainer position="top-center" autoClose={2000} />
     </>
   );
 }
