@@ -6,6 +6,7 @@ const {
 } = require('../errors/customError');
 
 const User = require('../models/userModel');
+const { EVENT_CATEGORIES } = require('../utils/constants');
 
 const withValidationErrors = (validateValues) => {
   return [
@@ -58,7 +59,23 @@ const validateLoginInput = withValidationErrors([
   body('password').notEmpty().withMessage('password is required'),
 ]);
 
+// validate event input
+const validateEventInput = withValidationErrors([
+  body('title')
+    .notEmpty()
+    .withMessage('title is required')
+    .isLength({ min: 4 })
+    .withMessage('title should be minimum 4 characters')
+    .isLength({ max: 20 })
+    .withMessage('title should not be more than 20 characters'),
+  body('category')
+    .isIn(Object.values(EVENT_CATEGORIES))
+    .withMessage('invalid event category'),
+  body('venue').notEmpty().withMessage('venue is required'),
+]);
+
 module.exports = {
   validateLoginInput,
   validateRegisterInput,
+  validateEventInput,
 };

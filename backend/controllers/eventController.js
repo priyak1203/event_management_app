@@ -1,11 +1,25 @@
+const { StatusCodes } = require('http-status-codes');
+const Event = require('../models/eventModel');
+
 // Create Event
 const createEvent = async (req, res) => {
-  res.json({ msg: 'Create Event' });
+  const { title, venue } = req.body;
+  const { userId, name } = req.user;
+
+  const event = await Event.create({
+    title,
+    venue,
+    owner: name,
+    createdBy: userId,
+  });
+
+  res.status(StatusCodes.CREATED).json({ msg: 'event created' });
 };
 
 // Get All Events
 const getAllEvents = async (req, res) => {
-  res.json({ msg: 'All Events' });
+  const events = await Event.find();
+  res.status(StatusCodes.OK).json({ events, count: events.length });
 };
 
 // Get Events from a particular User
