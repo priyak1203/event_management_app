@@ -33,7 +33,6 @@ function Login() {
 
   function onSubmit(values) {
     dispatch(loginUser(values));
-    // navigate('/dashboard');
   }
 
   useEffect(() => {

@@ -4,8 +4,10 @@ import {
   AddEvent,
   AllEvents,
   DashboardLayout,
+  Events,
   HomeLayout,
   Login,
+  ProtectedRoute,
   Register,
 } from './pages';
 
@@ -24,7 +26,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <DashboardLayout />,
+        element: (
+          <ProtectedRoute>
+            <DashboardLayout />
+          </ProtectedRoute>
+        ),
         children: [
           {
             index: true,
@@ -33,6 +39,10 @@ const router = createBrowserRouter([
           {
             path: 'add-event',
             element: <AddEvent />,
+          },
+          {
+            path: 'events',
+            element: <Events />,
           },
         ],
       },
